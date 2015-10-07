@@ -27,6 +27,11 @@ header {
 
 .gallery {
   margin: 0.5rem 0;
+  cursor: pointer;
+}
+
+.gallery:hover {
+  text-decoration: underline;
 }
 
 #map {

@@ -15,7 +15,7 @@
   <main class="clearfix">
     <nav id="sidebar">
       <ul class="galleries" data-bind="foreach: artGalleries">
-        <li class="gallery" data-bind="text: name"></li>
+        <li class="gallery" data-bind="text: name, click: $parent.clickMarker"></li>
       </ul>
     </nav>
     <div id="map"></div>
