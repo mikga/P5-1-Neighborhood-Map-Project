@@ -28,15 +28,25 @@ var galleryMarkers = [];
 // InfoWindow
 var infowindow;
 
+// Search result
+var searchResult;
+
 // KnockoutJS view model
 function GalleryViewModel () {
   var self = this;
-  self.artGalleries = artGalleries;
+  searchResult = ko.observableArray(artGalleries.slice());
+  self.searchString = ko.observable('');
+  self.searchGallery = function() {
+    searchResult(artGalleries.slice());
+    searchResult.remove(function(gallery){
+      return gallery.name.indexOf(self.searchString()) === -1;
+    });
+    addMarkers(searchResult());
+  };
   self.clickMarker = function() {
-    var index = artGalleries.indexOf(this);
+    var index = searchResult.indexOf(this);
     google.maps.event.trigger(galleryMarkers[index], 'click'); // TODO: find a better to do this
   };
-
 }
 ko.applyBindings(new GalleryViewModel());
 
@@ -94,12 +104,17 @@ function initMap() {
     infowindow.close();
   });
 
-  addMarkers(artGalleries);
+  addMarkers(searchResult());
 }
 
 function addMarkers(galleries) {
-  
-  // Clear all the markers
+
+  // Remove all the markers
+  for (var i = 0, len = galleryMarkers.length; i < len; i++){
+    galleryMarkers[i].setMap(null);
+  }
+
+  // Clear all the marker array
   galleryMarkers = [];
 
   // Add markers

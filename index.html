@@ -14,7 +14,10 @@
   </header>
   <main class="clearfix">
     <nav id="sidebar">
-      <ul class="galleries" data-bind="foreach: artGalleries">
+      <form class="search" data-bind="submit: searchGallery">
+        <input type="text" placeholder="search" data-bind="textInput: searchString">
+      </form>
+      <ul class="galleries" data-bind="foreach: searchResult()">
         <li class="gallery" data-bind="text: name, click: $parent.clickMarker"></li>
       </ul>
     </nav>
