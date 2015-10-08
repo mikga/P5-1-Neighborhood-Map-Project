@@ -39,3 +39,32 @@ header {
   width: 80%;
   float: right;
 }
+
+/*InfoWindow*/
+
+.infowindow {
+  width: 10rem;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+.iw-gallery-name {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+.iw-gallery-image {
+  max-width: 100%;
+  margin: 5px 0;
+}
+
+.iw-gallery-url {
+  text-decoration: none;
+  display: block;
+  margin: 5px 0 0 0;
+}
+
+.iw-gallery-url:hover {
+  text-decoration: underline;
+}
