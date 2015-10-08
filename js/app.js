@@ -136,8 +136,16 @@ function addMarkers(galleries) {
                 '</div>';
         infowindow.setContent(s);
         infowindow.open(map, marker);
-      }
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function() {
+          marker.setAnimation(null);
+        }, 1400);
+
+      };
     })(marker, i));
     galleryMarkers.push(marker);
   }
+
 }
+
+
