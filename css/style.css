@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Comfortaa:400);
+@import url(https://fonts.googleapis.com/css?family=Varela+Round);
+
 html,
 body,
 main {
@@ -6,33 +9,59 @@ main {
   padding: 0;
 }
 
+body {
+  background-color: #607D8B;
+}
+
 header {
   display: block;
   width: 100%;
   height: 4rem;
+  background-color: #455A64;
 }
 
 #title {
+  font-family: Comfortaa, sans-serif;
   font-size: 2rem;
+  font-weight: :400;
   line-height: 4rem;
   text-align: center;
+  color: #FFFFFF;
 }
 
 #sidebar {
   height: 100%;
   width: 20%;
   float: left;
-  padding: 1%;
+  font-family: 'Varela Round', sans-serif;
+  color: #FFF;
 }
 
+.filter {
+  position: relative;
+}
+
+.filter-box {
+  font-size: 1rem;
+  padding: 2% 5%;
+  width: 100%;
+  height: 1.6rem;
+}
+
+
 .gallery {
-  margin: 0.5rem 0;
+  padding: 2% 5%;
+  width: 100%;
   cursor: pointer;
+  line-height: 1.7rem;
+  height: 2.5rem;
+  text-transform: capitalize;
 }
 
 .gallery:hover {
-  text-decoration: underline;
+  background-color: #455A64;
 }
+
 
 #map {
   height: 100%;
@@ -46,6 +75,7 @@ header {
   width: 10rem;
   margin: 0 auto;
   padding: 0.5rem;
+  font-family: 'Varela Round', sans-serif;
 }
 
 .iw-gallery-name {

@@ -28,23 +28,23 @@ var galleryMarkers = [];
 // InfoWindow
 var infowindow;
 
-// Search result
-var searchResult;
+// filter result
+var filterResult;
 
 // KnockoutJS view model
 function GalleryViewModel () {
   var self = this;
-  searchResult = ko.observableArray(ART_GALLERIES.slice());
-  self.searchString = ko.observable('');
-  self.searchGallery = function() {
-    searchResult(ART_GALLERIES.slice());
-    searchResult.remove(function(gallery){
-      return gallery.name.indexOf(self.searchString()) === -1;
+  filterResult = ko.observableArray(ART_GALLERIES.slice());
+  self.filterString = ko.observable('');
+  self.filterGallery = function() {
+    filterResult(ART_GALLERIES.slice());
+    filterResult.remove(function(gallery){
+      return gallery.name.toLowerCase().indexOf(self.filterString().toLowerCase()) === -1;
     });
-    addMarkers(searchResult());
+    addMarkers(filterResult());
   };
   self.clickMarker = function() {
-    var index = searchResult.indexOf(this);
+    var index = filterResult.indexOf(this);
     google.maps.event.trigger(galleryMarkers[index], 'click'); // TODO: find a better to do this
   };
 }
@@ -67,11 +67,19 @@ function initMap() {
       // },
       {
         featureType: 'poi',
-        stylers: [{visibility: 'off'}]
+        stylers: [{saturation: -100, visibility: 'off'}]
       },
       {
         featureType: 'poi.park',
-        stylers: [{visibility: 'on'}]
+        stylers: [{saturation: -100, visibility: 'on'}]
+      },
+      {
+        featureType: 'water',
+        stylers: [{saturation: -80}]
+      },
+      {
+        featureType: 'road',
+        stylers: [{saturation: -100}]
       },
       {
         elementType: 'labels.text',
@@ -104,7 +112,7 @@ function initMap() {
     infowindow.close();
   });
 
-  addMarkers(searchResult());
+  addMarkers(filterResult());
 }
 
 function addMarkers(galleries) {
@@ -125,7 +133,14 @@ function addMarkers(galleries) {
     marker = new google.maps.Marker({
       position: galleries[i].location,
       map: map,
-      title: galleries[i].name
+      title: galleries[i].name,
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        strokeColor: '#C2185B',
+        fillColor: '#C2185B',
+        fillOpacity: 100,
+        scale: 7
+      },
     });
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
       return function() {
