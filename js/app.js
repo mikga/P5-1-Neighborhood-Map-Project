@@ -45,10 +45,11 @@ function GalleryViewModel () {
   };
   self.clickMarker = function() {
     var index = filterResult.indexOf(this);
-    google.maps.event.trigger(galleryMarkers[index], 'click'); // TODO: find a better to do this
+    google.maps.event.trigger(galleryMarkers[index], 'click');
   };
 }
 ko.applyBindings(new GalleryViewModel());
+
 
 // Draw the map
 function initMap() {
@@ -59,12 +60,6 @@ function initMap() {
   // Custom map style
   var customMapType = new google.maps.StyledMapType(
     [
-      // {
-      //   stylers: [
-      //     {visibility: 'simplified'},
-      //     {weight: 0.8}
-      //   ]
-      // },
       {
         featureType: 'poi',
         stylers: [{saturation: -100, visibility: 'off'}]
@@ -87,7 +82,7 @@ function initMap() {
       },
     ],
     {
-      name: 'Custom Style'
+      name: 'No labels'
     }
   );
   var customMapTypeId = 'custom_style';
@@ -112,22 +107,22 @@ function initMap() {
     infowindow.close();
   });
 
+  // Add markers
   addMarkers(filterResult());
+
 }
 
 function addMarkers(galleries) {
 
-  // Remove all the markers
+  var marker;
+
+  // Remove all markers
   for (var i = 0, len = galleryMarkers.length; i < len; i++){
     galleryMarkers[i].setMap(null);
   }
-
-  // Clear all the marker array
   galleryMarkers = [];
 
   // Add markers
-  var marker;
-
   for (var i = 0, len = galleries.length; i < len; i++){
 
     marker = new google.maps.Marker({
@@ -142,6 +137,8 @@ function addMarkers(galleries) {
         scale: 7
       },
     });
+
+    // Click event handler for the marker
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
       return function() {
         var s = '<div class="infowindow">' +
