@@ -71,27 +71,30 @@ header {
 /*InfoWindow*/
 
 .infowindow {
-  width: 10rem;
+  width: 15rem;
   margin: 0 auto;
   padding: 0.5rem;
   font-family: 'Roboto', sans-serif;
 }
 
 .iw-gallery-name {
-  font-size: 1rem;
+  font-size: 1.3rem;
   line-height: 1.5rem;
   font-weight: 700;
+  text-align: center;
 }
 
 .iw-gallery-image {
   max-width: 100%;
-  margin: 5px 0;
+  margin: 5px auto;
+  display: block;
 }
 
 .iw-gallery-url {
   text-decoration: none;
   display: block;
-  margin: 5px 0 0 0;
+  margin: 5px 0;
+  text-align: center;
 }
 
 .iw-gallery-url:hover {
