@@ -31,6 +31,38 @@ var infowindow;
 // filter result
 var filterResult;
 
+// Hamburger menu
+$(document).ready(function(){
+
+  // Show the side bar when the hamburger menu is clicked.
+  $('.hamburger').click(function() {
+    $('#sidebar').slideToggle('slow', function() {
+      $('.hamburger').hide();
+      $('.close-button').show();
+    });
+  });
+
+  // Hide the side bar when the close button is clicked.
+  $('.close-button').click(function() {
+    $('#sidebar').slideToggle( 'slow', function() {
+      $('.close-button').hide();
+      $('.hamburger').show();
+    });
+  });
+
+  // Hide the side bar when one of the lists is clicked.
+  // This is only when the hamburger menu is displayed (width <= 900).
+  if ($(window).width() <= 900) {
+    $('.gallery').click(function() {
+      $('#sidebar').slideToggle( 'slow', function() {
+        $('.close-button').hide();
+        $('.hamburger').show();
+      });
+    });
+  }
+
+});
+
 // KnockoutJS view model
 function GalleryViewModel () {
   var self = this;
@@ -46,6 +78,15 @@ function GalleryViewModel () {
   self.clickMarker = function() {
     var index = filterResult.indexOf(this);
     google.maps.event.trigger(galleryMarkers[index], 'click');
+
+    // Hide the side bar when one of the lists is clicked.
+    // This is only when the hamburger menu is displayed (width <= 900).
+    if ($(window).width() <= 900) {
+      $('#sidebar').slideToggle( 'slow', function() {
+        $('.close-button').hide();
+        $('.hamburger').show();
+      });
+    }
   };
 }
 ko.applyBindings(new GalleryViewModel());
@@ -92,6 +133,8 @@ function initMap() {
     center: centralLondon,
     scrollwheel: false,
     zoom: 14,
+    mapTypeControl: false,
+    streetViewControl: false,
     mapTypeControlOptions: {
       mapTypeIds: [google.maps.MapTypeId.ROADMAP, customMapTypeId]
     }
@@ -147,7 +190,7 @@ function addMarkers(galleries) {
                 '<h3 class="iw-gallery-name">' + galleries[i].name + '</h3>' +
                 '<img class="iw-gallery-image" src="' + galleries[i].photo + '" alt="' + galleries[i].name + '">' +
                 '<a class="iw-gallery-url" href="' + galleries[i].url + '">' + galleries[i].url + '</a>' +
-                '<a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="653667256036159489" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
+                '<span class="twitter-loading">Loading </span><a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="653667256036159489" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
                 '</div>';
         infowindow.setContent(s);
         infowindow.open(map, marker);
@@ -155,6 +198,13 @@ function addMarkers(galleries) {
         // Add twitter feed
         twttr.widgets.load(
           document.getElementById("infowindow")
+        );
+
+        twttr.events.bind(
+          'rendered',
+          function (event) {
+            $('.twitter-loading').hide();
+          }
         );
 
         //Animate the marker
