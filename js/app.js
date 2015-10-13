@@ -201,7 +201,7 @@ function addMarkers(galleries) {
 
         // Add twitter feed
         twttr.widgets.load(
-          document.getElementById("infowindow")
+          document.getElementById('infowindow')
         );
 
         twttr.events.bind(
