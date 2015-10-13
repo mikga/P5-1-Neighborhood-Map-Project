@@ -31,6 +31,8 @@ var infowindow;
 // filter result
 var filterResult;
 
+
+
 // Hamburger menu
 $(document).ready(function(){
 
@@ -185,12 +187,14 @@ function addMarkers(galleries) {
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
       return function() {
 
+        var dataWidgetId = 653667256036159489;
+
         // Content of the infowindow
         var s = '<div id="infowindow" class="infowindow">' +
                 '<h3 class="iw-gallery-name">' + galleries[i].name + '</h3>' +
                 '<img class="iw-gallery-image" src="' + galleries[i].photo + '" alt="' + galleries[i].name + '">' +
                 '<a class="iw-gallery-url" href="' + galleries[i].url + '">' + galleries[i].url + '</a>' +
-                '<span class="twitter-loading">Loading </span><a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="653667256036159489" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
+                '<span class="twitter-loading">Loading </span><a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="' + dataWidgetId + '" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
                 '</div>';
         infowindow.setContent(s);
         infowindow.open(map, marker);
