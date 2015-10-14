@@ -32,44 +32,20 @@ var infowindow;
 var filterResult;
 
 
-
-// Hamburger menu
-$(document).ready(function(){
-
-  // Show the side bar when the hamburger menu is clicked.
-  $('.hamburger').click(function() {
-    $('#sidebar').slideToggle('slow', function() {
-      $('.hamburger').hide();
-      $('.close-button').show();
-    });
-  });
-
-  // Hide the side bar when the close button is clicked.
-  $('.close-button').click(function() {
-    $('#sidebar').slideToggle( 'slow', function() {
-      $('.close-button').hide();
-      $('.hamburger').show();
-    });
-  });
-
-  // Hide the side bar when one of the lists is clicked.
-  // This is only when the hamburger menu is displayed (width <= 900).
-  if ($(window).width() <= 900) {
-    $('.gallery').click(function() {
-      $('#sidebar').slideToggle( 'slow', function() {
-        $('.close-button').hide();
-        $('.hamburger').show();
-      });
-    });
-  }
-
-});
-
 // KnockoutJS view model
 function GalleryViewModel () {
   var self = this;
+
+  // Setting the initial gallery data
   filterResult = ko.observableArray(ART_GALLERIES.slice());
+
+  // Initialise the filter string
   self.filterString = ko.observable('');
+
+  // Side bar status - initially hidden
+  self.showSidebar = ko.observable(false);
+
+  // Function to filter the list
   self.filterGallery = function() {
     filterResult(ART_GALLERIES.slice());
     filterResult.remove(function(gallery){
@@ -77,19 +53,18 @@ function GalleryViewModel () {
     });
     addMarkers(filterResult());
   };
+
+  // Function to click a marker
   self.clickMarker = function() {
     var index = filterResult.indexOf(this);
     google.maps.event.trigger(galleryMarkers[index], 'click');
-
-    // Hide the side bar when one of the lists is clicked.
-    // This is only when the hamburger menu is displayed (width <= 900).
-    if ($(window).width() <= 900) {
-      $('#sidebar').slideToggle( 'slow', function() {
-        $('.close-button').hide();
-        $('.hamburger').show();
-      });
-    }
   };
+
+  // Togle side bar status
+  self.toggleSidebar = function() {
+    self.showSidebar(!self.showSidebar());
+  };
+
 }
 ko.applyBindings(new GalleryViewModel());
 
@@ -187,14 +162,12 @@ function addMarkers(galleries) {
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
       return function() {
 
-        var dataWidgetId = 653667256036159489;
-
         // Content of the infowindow
         var s = '<div id="infowindow" class="infowindow">' +
                 '<h3 class="iw-gallery-name">' + galleries[i].name + '</h3>' +
                 '<img class="iw-gallery-image" src="' + galleries[i].photo + '" alt="' + galleries[i].name + '">' +
                 '<a class="iw-gallery-url" href="' + galleries[i].url + '">' + galleries[i].url + '</a>' +
-                '<span class="twitter-loading">Loading </span><a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="' + dataWidgetId + '" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
+                '<span class="twitter-loading">Loading </span><a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="653667256036159489" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
                 '</div>';
         infowindow.setContent(s);
         infowindow.open(map, marker);

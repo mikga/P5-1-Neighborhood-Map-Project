@@ -30,7 +30,7 @@ header {
 }
 
 .hamburger {
-  display: none;
+  display: block;
   background: none;
   position: absolute;
   top: 0;
@@ -43,11 +43,11 @@ header {
   font-weight: bold;
   cursor: pointer;
   outline: none;
-  z-index: 10000000000000;
+  z-index: 100;
 }
 
 .close-button {
-  display: none;
+  display: block;
   background: none;
   position: absolute;
   top: 0;
@@ -60,7 +60,7 @@ header {
   font-weight: bold;
   cursor: pointer;
   outline: none;
-  z-index: 10000000000001;
+  z-index: 101;
 }
 
 main {
@@ -68,12 +68,15 @@ main {
 }
 
 #sidebar {
+  position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
   width: 20%;
-  float: left;
   font-family: 'Roboto', sans-serif;
   color: #FFF;
   background-color: #607D8B;
+  z-index: 100;
 }
 
 .filter {
@@ -103,8 +106,7 @@ main {
 
 #map {
   height: calc(100% - 4rem);
-  width: 80%;
-  float: right;
+  width: 100%;
 }
 
 /*InfoWindow*/
@@ -143,18 +145,6 @@ main {
 
 /* Responsive design*/
 
-@media (min-width: 901px) {
-
-  .hamburger {
-    display: none;
-  }
-
-  .close-button {
-    display: none;
-  }
-
-}
-
 @media (max-width: 900px) {
 
   header {
@@ -172,16 +162,10 @@ main {
   }
 
   #sidebar {
-    display: none;
-    position: absolute;
     width: 200px;
-    left: 0;
-    top: 0;
-    z-index: 100;
   }
 
   .hamburger {
-    display: block;
     line-height: 3rem;
     padding: 0 0 0 1rem;
   }
@@ -209,7 +193,6 @@ main {
   }
 
   .hamburger {
-    display: block;
     line-height: 2rem;
     padding: 0.1rem 0 0 0.5rem;
   }
