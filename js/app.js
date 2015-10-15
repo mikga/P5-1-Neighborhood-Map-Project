@@ -1,6 +1,7 @@
-'use strict';
-
-// List of art galleries
+/**
+ * The array of the pre-defined Art gallery locations
+ * @type {Array}
+ */
 var ART_GALLERIES = [
   {id: 1, name: 'Barbican Centre', location: {lat: 51.5202, lng: -0.095}, url: 'http://www.barbican.org.uk/', twitter: 'BarbicanCentre', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Barbican-arts-centre-large.jpg/125px-Barbican-arts-centre-large.jpg' },
   {id: 2, name: 'British Museum', location: {lat: 51.519459, lng: -0.126931}, url: 'http://www.britishmuseum.org/', twitter: 'britishmuseum', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/British_Museum_from_NE_2.JPG/125px-British_Museum_from_NE_2.JPG' },
@@ -32,8 +33,12 @@ var infowindow;
 var filterResult;
 
 
-// KnockoutJS view model
+/**
+ * KnockoutJS view model
+ */
 function GalleryViewModel () {
+  'use strict';
+
   var self = this;
 
   // Setting the initial gallery data
@@ -69,8 +74,11 @@ function GalleryViewModel () {
 ko.applyBindings(new GalleryViewModel());
 
 
-// Draw the map
+/**
+ * Initialise the Google Map
+ */
 function initMap() {
+  'use strict';
 
   // Location of the central london
   var centralLondon = { lat: 51.507222, lng: -0.1275 };
@@ -132,18 +140,25 @@ function initMap() {
 
 }
 
+/**
+ * Add markers to the map
+ * @param {Array} galleries - The array of galleries
+ */
 function addMarkers(galleries) {
+  'use strict';
 
-  var marker;
+  var marker,
+      i,
+      len;
 
   // Remove all markers
-  for (var i = 0, len = galleryMarkers.length; i < len; i++){
+  for (i = 0, len = galleryMarkers.length; i < len; i++){
     galleryMarkers[i].setMap(null);
   }
   galleryMarkers = [];
 
   // Add markers
-  for (var i = 0, len = galleries.length; i < len; i++){
+  for (i = 0, len = galleries.length; i < len; i++){
 
     marker = new google.maps.Marker({
       position: galleries[i].location,
@@ -174,7 +189,7 @@ function addMarkers(galleries) {
         infowindow.open(map, marker);
 
         // Render twitter feed
-        makeTwitterWidget(galleries[i].twitter);
+        makeTwitterWidget(galleries[i].twitter, 'twitter-timeline');
 
         //Animate the marker
         marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -189,15 +204,26 @@ function addMarkers(galleries) {
 
 }
 
-// Twitter JavaScript API
-// This function internally obtains the twitter widget using AJAX,
-// which eliminates the use of jQuery ajax call.
-// https://dev.twitter.com/web/javascript/creating-widgets
-function makeTwitterWidget(twitterScreenName) {
+/**
+ * Make twitter widget on the specified element
+ *
+ * This function uses the Twitter JavaScript API, which internally
+ * obtains the twitter widget using AJAX, hence eliminates the explicit
+ * use of jQuery ajax call.
+ * When the AJAX call fails, it just doesn't add the twitter feed
+ * to the DOM, which is intended.
+ *
+ * @param {String} twitterScreenName - The Twitter screen name
+ * @param {String} elementId         - The element ID
+ * @see {@link https://dev.twitter.com/web/javascript/creating-widgets|Twitter JavaScript}
+ */
+function makeTwitterWidget(twitterScreenName, elementId) {
+  'use strict';
+
   twttr.widgets.createTimeline(
     '653667256036159489',
     // '653667256036159488',
-    document.getElementById('twitter-timeline'),
+    document.getElementById(elementId),
     {
       tweetLimit: 1,
       screenName: twitterScreenName
