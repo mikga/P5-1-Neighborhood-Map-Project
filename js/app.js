@@ -167,22 +167,14 @@ function addMarkers(galleries) {
                 '<h3 class="iw-gallery-name">' + galleries[i].name + '</h3>' +
                 '<img class="iw-gallery-image" src="' + galleries[i].photo + '" alt="' + galleries[i].name + '">' +
                 '<a class="iw-gallery-url" href="' + galleries[i].url + '">' + galleries[i].url + '</a>' +
-                '<span class="twitter-loading">Loading </span><a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="653667256036159489" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
+                '<div id="twitter-timeline"></div>' +
+                // '<span class="twitter-loading">Loading </span><a class="twitter-timeline" href="https://twitter.com/' + galleries[i].twitter + '" data-widget-id="653667256036159489" data-screen-name="' + galleries[i].twitter + '">Tweets by @' + galleries[i].twitter + '</a>' +
                 '</div>';
         infowindow.setContent(s);
         infowindow.open(map, marker);
 
-        // Add twitter feed
-        twttr.widgets.load(
-          document.getElementById('infowindow')
-        );
-
-        twttr.events.bind(
-          'rendered',
-          function (event) {
-            $('.twitter-loading').hide();
-          }
-        );
+        // Render twitter feed
+        makeTwitterWidget(galleries[i].twitter);
 
         //Animate the marker
         marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -195,6 +187,22 @@ function addMarkers(galleries) {
     galleryMarkers.push(marker);
   }
 
+}
+
+// Twitter JavaScript API
+// This function internally obtains the twitter widget using AJAX,
+// which eliminates the use of jQuery ajax call.
+// https://dev.twitter.com/web/javascript/creating-widgets
+function makeTwitterWidget(twitterScreenName) {
+  twttr.widgets.createTimeline(
+    '653667256036159489',
+    // '653667256036159488',
+    document.getElementById('twitter-timeline'),
+    {
+      tweetLimit: 1,
+      screenName: twitterScreenName
+    }
+  );
 }
 
 

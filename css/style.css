@@ -112,8 +112,9 @@ main {
 /*InfoWindow*/
 
 .infowindow {
-  width: 100%;
-  min-height: 470px;
+  display: block;
+  width: 250px;
+  /*min-height: 470px;*/
   margin: 0 auto;
   padding: 0.5rem;
   font-family: 'Roboto', sans-serif;
@@ -143,6 +144,9 @@ main {
   text-decoration: underline;
 }
 
+.twitter-timeline {
+  width: 100%;
+}
 /* Responsive design*/
 
 @media (max-width: 900px) {
